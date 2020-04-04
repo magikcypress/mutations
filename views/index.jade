@@ -1,0 +1,241 @@
+html(ng-app='MutationsViewApp')
+  head
+    title Mutations
+    meta( charset='utf-8' )
+    link(href="//maxcdn.bootstrapcdn.com/bootswatch/3.3.0/flatly/bootstrap.min.css", rel="stylesheet")
+    script(src='https://ajax.googleapis.com/ajax/libs/angularjs/1.7.2/angular.min.js')
+    script(type='text/javascript').
+        var app = angular.module("MutationsViewApp", []); 
+
+        app.controller("MutationController", function($scope, $http, $window) {
+
+            $scope.putMutation = function(){
+                $http({
+                    method:'PUT',
+                    url:'http://localhost:8080/mutation',
+                    data:{
+                        'mutation':$scope.mutation,
+                        'date_mutation': $scope.date_mutation,
+                        'valeur_fonciere': $scope.valeur_fonciere,
+                        'adresse_complete': $scope.adresse_complete,
+                        'code_postal': $scope.code_postal,
+                        'nom_commune': $scope.nom_commune,
+                        'code_commune': $scope.code_commune,
+                        'code_departement': $scope.code_departement
+                    },
+                    headers:{
+                        'Content-type': 'application/json;charset=utf-8'
+                    }
+                }).then(function mySuccess(response) {
+                    console.log(response.data);
+                    $scope.selectMutation();
+                }, function myError(response) {
+                    console.log(response.data);
+                });
+            }
+
+            $scope.postMutation = function(){
+                //- if (typeof (value) == "undefined" || value == "") {
+                //-     $window.alert("Merci de saisir une mutation dans la recherche !");
+                //-     return;
+                //- }
+                $http({
+                    method :'POST',
+                    url :'http://localhost:8080/mutation',
+                    data:{
+                        'mutation':$scope.mutation,
+                        'date_mutation': $scope.date_mutation,
+                        'valeur_fonciere': $scope.valeur_fonciere,
+                        'adresse_complete': $scope.adresse_complete,
+                        'code_postal': $scope.code_postal,
+                        'nom_commune': $scope.nom_commune,
+                        'code_commune': $scope.code_commune,
+                        'code_departement': $scope.code_departement
+                    },
+                    headers: {
+                        'Content-type':'application/json;charset=utf-8'
+                    }
+                }).then(function mySuccess(response) {
+                    $scope.selectMutation();
+                }, function myError(response) {
+                    console.log(response.data);
+                });
+            }
+
+            $scope.searchMutation = function(value){
+                if (typeof (value) == "undefined" || value == "") {
+                    $window.alert("Merci de saisir une mutation dans la recherche !");
+                    return;
+                }
+                $http({
+                    method : 'POST',
+                    url : 'http://localhost:8080/smutation',
+                    data:{
+                        'mutation':value
+                    },
+                    headers:{
+                        'Content-type': 'application/json;charset=utf-8'
+                    }
+                }).then(function mySuccess(response) {
+                    $scope.Mutations = response.data;
+                    // $scope.selectSearchMutation($scope.Mutations);
+                }, function myError(response) {
+                    console.log(response.data);
+                });
+            }
+
+            $scope.deleteMutation = function(value){
+                if ($window.confirm("Voulez vous vraiement supprimer cette mutation ?")) {
+                    $http({
+                        method : 'DELETE',
+                        url : 'http://localhost:8080/mutation',
+                        data:{
+                            'mutation':value
+                        },
+                        headers:{
+                            'Content-type': 'application/json;charset=utf-8'
+                        }
+                    }).then(function mySuccess(response) {
+                        $scope.selectMutation();
+                    }, function myError(response) {
+                        console.log(response.data);
+                    });
+                }
+            }
+
+            $scope.getMutation = function(value){
+                $http({
+                    method : 'POST',
+                    url : 'http://localhost:8080/smutation',
+                    data:{
+                        'mutation':value
+                    },
+                    headers:{
+                        'Content-type': 'application/json;charset=utf-8'
+                    }
+                }).then(function mySuccess(response) {
+                    $scope.Mutations = response.data;
+
+                    $scope.mutation = $scope.Mutations[0].mutation;
+                    $scope.date_mutation = $scope.Mutations[0].date_mutation;
+                    $scope.valeur_fonciere = $scope.Mutations[0].valeur_fonciere;
+                    $scope.adresse_complete = $scope.Mutations[0].adresse_complete;
+                    $scope.code_postal = $scope.Mutations[0].code_postal;
+                    $scope.nom_commune = $scope.Mutations[0].nom_commune;
+                    $scope.code_commune = $scope.Mutations[0].code_commune;
+                    $scope.code_departement = $scope.Mutations[0].code_departement;
+
+                }, function myError(response) {
+                    console.log(response.data);
+                });
+            }
+
+            $scope.selectMutation = function(){
+                $http({
+                    method : 'GET',
+                    url : 'http://localhost:8080/mutation'
+                }).then(function mySuccess(response) {
+                console.log(response)
+                    $scope.Mutations = response.data;
+                }, function myError(response) {
+                    console.log(response.data);
+                });
+            }
+        });
+
+    style.
+        body{
+            background-color:#18bc9c;
+        }
+        .MutationsContent {
+            margin: 0px auto;
+            text-align: center;
+            width:78%;
+            background-color:white;
+            padding:20px;
+            border: 2px outset #83938D;
+            border-radius:60px;
+            display: block;
+        }
+        .one, .two {
+          display: inline-block;
+          vertical-align: top;
+          padding: 10px;
+          box-sizing: border-box;
+        }
+        .one {
+          width: 27%;
+        }
+        .two {
+          /* Vital to leave some space, so that the sum is not 100% width */
+          /* Or a "line-break" will happen for the inline-block */
+          width: 70%;
+        }
+        @media all and (max-width: 768px) {
+            .one, .two {
+                width: 100%;
+            }
+        }
+  body
+    div(class='MutationsContent')
+      div(ng-controller='MutationController')
+          a(href='/')
+              h1 Mutations
+          div(class='one')
+              h2 Ajouter une mutation
+              p
+                          input(type='textbox', name='mutation', placeholder='Mutation',class='form-control', ng-model='mutation')
+              p
+                          input(type='textbox', name='date_mutation', placeholder='Date mutation',class='form-control', ng-model='date_mutation',maxlength='50')
+              p
+                          input(type='textbox', name='valeur_fonciere', placeholder='Valeur foncière',class='form-control', ng-model='valeur_fonciere',maxlength='50')
+              p
+                          input(type='textbox', name='adresse_complete', placeholder='Adresse compléte',class='form-control', ng-model='adresse_complete',maxlength='50')
+              p
+                          input(type='textbox', name='code_postal', placeholder='Code postal',class='form-control', ng-model='code_postal',maxlength='50')
+              p
+                          input(type='textbox', name='nom_commune', placeholder='Commune',class='form-control', ng-model='nom_commune',maxlength='50')
+              p
+                          input(type='textbox', name='code_commune', placeholder='Code commune',class='form-control', ng-model='code_commune',maxlength='50')
+              p
+                          input(type='textbox', name='code_departement', placeholder='Département',class='form-control', ng-model='code_departement',maxlength='50')
+              p
+                          input(type='button', value='Ajouter',name='postButton',class='btn btn-success btn-block', ng-click='postMutation()')
+                          input(type='button', value='Modifier',name='putButton',class='btn btn-primary btn-block', ng-click='putMutation()')    
+
+          div(class='two')
+                  h2 Chercher une mutation
+                  p
+                      input(type='textbox', name='Mutation.mutation', placeholder='Rechercher une mutation',class='form-control',ng-model='Mutation.mutation')
+                  p
+                      input(type='button', value='Rechercher',name='searchButton',class='btn btn-success btn-block',ng-click='searchMutation(Mutation.mutation)')
+                      hr
+
+                  h4 Liste des mutations
+                  div(class='table-responsive-sm')
+                      table(class='table table-striped table-hover',ng-init='selectMutation()')
+                          thead
+                              tr   
+                                  th(scope='col') Mutation
+                                  th(scope='col') Date mutation
+                                  th(scope='col') Valeur foncière
+                                  th(scope='col') Adresse compléte
+                                  th(scope='col') Code postal
+                                  th(scope='col') Commune
+                                  th(scope='col') Code commune
+                                  th(scope='col') Département
+                          tbody
+                              tr(ng-repeat="Mutation in Mutations")
+                                  td {{Mutation.mutation}}
+                                  td {{Mutation.date_mutation}}
+                                  td {{Mutation.valeur_fonciere}}
+                                  td {{Mutation.adresse_complete}}
+                                  td {{Mutation.code_postal}}
+                                  td {{Mutation.nom_commune}}
+                                  td {{Mutation.code_commune}}
+                                  td {{Mutation.code_departement}}
+                                  td
+                                      
+                                      input(type='button', value='Récupérer',name='getButton',class='btn btn-success btn-sm',ng-click='getMutation(Mutation.mutation)')
+                                      input(type='button', value='Supprimer',name='deleteButton',class='btn btn-success btn-sm',ng-click='deleteMutation(Mutation.mutation)')
+
