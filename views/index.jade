@@ -2,7 +2,9 @@ html(ng-app='MutationsViewApp')
   head
     title Mutations
     meta( charset='utf-8' )
+    link(rel='shortcut icon', type='image/ico', href='/favicon.ico')
     link(href="//maxcdn.bootstrapcdn.com/bootswatch/3.3.0/flatly/bootstrap.min.css", rel="stylesheet")
+    link(href="https://use.fontawesome.com/releases/v5.5.0/css/all.css", rel="stylesheet")
     script(src='https://ajax.googleapis.com/ajax/libs/angularjs/1.7.2/angular.min.js')
     script(type='text/javascript').
         var app = angular.module("MutationsViewApp", []); 
@@ -12,7 +14,7 @@ html(ng-app='MutationsViewApp')
             $scope.putMutation = function(){
                 $http({
                     method:'PUT',
-                    url:'http://localhost:8080/mutation',
+                    url:'http://localhost:8181/mutation',
                     data:{
                         'mutation':$scope.mutation,
                         'date_mutation': $scope.date_mutation,
@@ -41,7 +43,7 @@ html(ng-app='MutationsViewApp')
                 //- }
                 $http({
                     method :'POST',
-                    url :'http://localhost:8080/mutation',
+                    url :'http://localhost:8181/mutation',
                     data:{
                         'mutation':$scope.mutation,
                         'date_mutation': $scope.date_mutation,
@@ -69,7 +71,7 @@ html(ng-app='MutationsViewApp')
                 }
                 $http({
                     method : 'POST',
-                    url : 'http://localhost:8080/smutation',
+                    url : 'http://localhost:8181/smutation',
                     data:{
                         'mutation':value
                     },
@@ -88,7 +90,7 @@ html(ng-app='MutationsViewApp')
                 if ($window.confirm("Voulez vous vraiement supprimer cette mutation ?")) {
                     $http({
                         method : 'DELETE',
-                        url : 'http://localhost:8080/mutation',
+                        url : 'http://localhost:8181/mutation',
                         data:{
                             'mutation':value
                         },
@@ -106,7 +108,7 @@ html(ng-app='MutationsViewApp')
             $scope.getMutation = function(value){
                 $http({
                     method : 'POST',
-                    url : 'http://localhost:8080/smutation',
+                    url : 'http://localhost:8181/smutation',
                     data:{
                         'mutation':value
                     },
@@ -133,7 +135,7 @@ html(ng-app='MutationsViewApp')
             $scope.selectMutation = function(){
                 $http({
                     method : 'GET',
-                    url : 'http://localhost:8080/mutation'
+                    url : 'http://localhost:8181/mutation'
                 }).then(function mySuccess(response) {
                 console.log(response)
                     $scope.Mutations = response.data;
@@ -150,7 +152,7 @@ html(ng-app='MutationsViewApp')
         .MutationsContent {
             margin: 0px auto;
             text-align: center;
-            width:78%;
+            width: 95%;
             background-color:white;
             padding:20px;
             border: 2px outset #83938D;
@@ -164,13 +166,23 @@ html(ng-app='MutationsViewApp')
           box-sizing: border-box;
         }
         .one {
-          width: 27%;
+          width: 24%;
         }
         .two {
           /* Vital to leave some space, so that the sum is not 100% width */
           /* Or a "line-break" will happen for the inline-block */
-          width: 70%;
+          width: 73%;
         }
+        .button {
+          width: 10%;
+        }
+        .btn-sm {
+          margin-right: .2em;
+        }
+        table {
+          font-size: .8em;
+        }
+        @media all and (max-width: 768px) {
         @media all and (max-width: 768px) {
             .one, .two {
                 width: 100%;
@@ -179,7 +191,7 @@ html(ng-app='MutationsViewApp')
   body
     div(class='MutationsContent')
       div(ng-controller='MutationController')
-          a(href='/')
+          a(href='/mutations')
               h1 Mutations
           div(class='one')
               h2 Ajouter une mutation
@@ -234,8 +246,10 @@ html(ng-app='MutationsViewApp')
                                   td {{Mutation.nom_commune}}
                                   td {{Mutation.code_commune}}
                                   td {{Mutation.code_departement}}
-                                  td
+                                  td(class="button")
                                       
-                                      input(type='button', value='Récupérer',name='getButton',class='btn btn-success btn-sm',ng-click='getMutation(Mutation.mutation)')
-                                      input(type='button', value='Supprimer',name='deleteButton',class='btn btn-success btn-sm',ng-click='deleteMutation(Mutation.mutation)')
+                                      button.btn.btn-success(type='submit',name='getButton',class='btn btn-success btn-sm',ng-click='getMutation(Mutation.mutation)')
+                                          i.fas.fa-sync
+                                      button.btn.btn-success(type='submit',name='deleteButton',class='btn btn-success btn-sm',ng-click='deleteMutation(Mutation.mutation)')
+                                          i.fas.fa-pen
 

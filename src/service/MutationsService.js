@@ -93,5 +93,4 @@ function extracData(_data){
 }
 
 module.exports = MutationsService;
-  
  
