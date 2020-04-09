@@ -5,10 +5,7 @@ const client = new Client({
         password: '',
         host: '',
         port: '',
-        database: '',
-          ssl: {
-            rejectUnauthorized: true
-          }
+        database: ''
 })
 
 client.connect();

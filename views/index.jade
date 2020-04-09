@@ -2,7 +2,7 @@ html(ng-app='MutationsViewApp')
   head
     title Mutations
     meta( charset='utf-8' )
-    link(rel='shortcut icon', type='image/ico', href='/favicon.ico')
+    link(rel='shortcut icon', type='image/ico', href='/public/favicon.ico')
     link(href="//maxcdn.bootstrapcdn.com/bootswatch/3.3.0/flatly/bootstrap.min.css", rel="stylesheet")
     link(href="https://use.fontawesome.com/releases/v5.5.0/css/all.css", rel="stylesheet")
     script(src='https://ajax.googleapis.com/ajax/libs/angularjs/1.7.2/angular.min.js')
@@ -174,7 +174,7 @@ html(ng-app='MutationsViewApp')
           width: 73%;
         }
         .button {
-          width: 10%;
+          width: 5%;
         }
         .btn-sm {
           margin-right: .2em;
@@ -191,7 +191,7 @@ html(ng-app='MutationsViewApp')
   body
     div(class='MutationsContent')
       div(ng-controller='MutationController')
-          a(href='/mutations')
+          a(href='/')
               h1 Mutations
           div(class='one')
               h2 Ajouter une mutation

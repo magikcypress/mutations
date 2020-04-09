@@ -4,6 +4,7 @@ const mutationsController = express();
 
 mutationsController.set('port', process.env.PORT || 8181);
 mutationsController.set('view engine','jade');
+mutationsController.use('/public', express.static('public'));
 
 mutationsController.use(express.json());
 
