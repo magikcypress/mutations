@@ -30,7 +30,7 @@ html(ng-app='MutationsViewApp')
                     }
                 }).then(function mySuccess(response) {
                     console.log(response.data);
-                    $scope.selectMutation();
+                    //$scope.selectMutation();
                 }, function myError(response) {
                     console.log(response.data);
                 });
@@ -194,7 +194,7 @@ html(ng-app='MutationsViewApp')
           a(href='/')
               h1 Mutations
           div(class='one')
-              h2 Ajouter une mutation
+              h2 Détail de la mutation
               p
                           input(type='textbox', name='mutation', placeholder='Mutation',class='form-control', ng-model='mutation')
               p
@@ -249,7 +249,7 @@ html(ng-app='MutationsViewApp')
                                   td(class="button")
                                       
                                       button.btn.btn-success(type='submit',name='getButton',class='btn btn-success btn-sm',ng-click='getMutation(Mutation.mutation)')
-                                          i.fas.fa-sync
-                                      button.btn.btn-success(type='submit',name='deleteButton',class='btn btn-success btn-sm',ng-click='deleteMutation(Mutation.mutation)')
                                           i.fas.fa-pen
+                                      button.btn.btn-success(type='submit',name='deleteButton',class='btn btn-success btn-sm',ng-click='deleteMutation(Mutation.mutation)')
+                                          i.fas.fa-trash
 
