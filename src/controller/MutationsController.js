@@ -32,9 +32,13 @@ mutationsController.delete('/mutation', async function (request, response){
     response.send(await mutationService.deleteMutation(request.body));
 });
 
+mutationsController.get('/amutation', async function (request, response){
+    response.send(await mutationService.activityMutation());
+});
+
 mutationsController.get('/', function (request,response){
   mutationService.selectMutation().then(function(result){
-  	console.log(result)
+  	// console.log(result)
     response.render('index',
     {results:result});
   });

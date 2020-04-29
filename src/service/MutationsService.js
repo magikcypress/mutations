@@ -5,7 +5,8 @@ const client = new Client({
         password: '',
         host: '',
         port: '',
-        database: ''
+        database: '',
+        ssl: true
 })
 
 client.connect();
@@ -84,6 +85,16 @@ MutationsService.selectMutation = async (_data)=>{
     throw Error("error");
   }
 }
+
+MutationsService.activityMutation = async (_data)=>{
+  try{
+    let {rows} = await client.query("SELECT query FROM pg_stat_activity");
+    return extracData(rows);
+  }catch(error){
+    throw Error("error");
+  }
+}
+
 
 function extracData(_data){
   return JSON.parse(JSON.stringify(_data));
